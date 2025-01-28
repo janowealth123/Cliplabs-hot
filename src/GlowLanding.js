@@ -1,36 +1,3 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { ArrowRight, CheckCircle, DollarSign, Users, Sparkles, Clock } from 'lucide-react';
-
-const StatCard = ({ icon: Icon, label, value }) => (
-  <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 flex flex-col items-center text-center
-    border border-white/10 hover:bg-white/10 transition-all transform hover:scale-105 cursor-pointer">
-    <Icon className="w-8 h-8 text-purple-200 mb-3" />
-    <div className="text-3xl font-bold text-white mb-2">{value}</div>
-    <div className="text-purple-200">{label}</div>
-  </div>
-);
-
-const FeatureItem = ({ feature }) => (
-  <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10
-    hover:bg-white/10 transition-all cursor-pointer">
-    <div className="flex-shrink-0 w-8 h-8 bg-purple-400/20 rounded-full flex items-center justify-center">
-      <CheckCircle className="w-5 h-5 text-purple-200" />
-    </div>
-    <span className="text-lg text-purple-100">{feature}</span>
-  </div>
-);
-
-const FormInput = ({ name, type, placeholder, required = true }) => (
-  <input
-    name={name}
-    type={type}
-    placeholder={placeholder}
-    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-purple-200 
-      focus:ring-2 focus:ring-purple-300 focus:border-transparent transition-all hover:bg-white/10"
-    required={required}
-  />
-);
-
 export default function GlowLanding() {
   const [animatedCount, setAnimatedCount] = useState(0);
   const formRef = useRef(null);
@@ -55,7 +22,7 @@ export default function GlowLanding() {
       const steps = 60;
       const increment = targetCount / steps;
       let current = 0;
-      
+
       return setInterval(() => {
         current += increment;
         if (current >= targetCount) {
@@ -82,33 +49,15 @@ export default function GlowLanding() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#6B4BCC] via-[#563AA5] to-[#4B2A99] relative overflow-hidden">
       <style>{`
-        @keyframes glow {
-          0% { box-shadow: 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #e0aeff, 0 0 50px #e0aeff; }
-          100% { box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e0aeff, 0 0 40px #e0aeff; }
+        html, body {
+          height: 100%;
+          margin: 0;
         }
-        .glow-button {
-          animation: glow 2s ease-in-out infinite alternate, float 3s ease-in-out infinite;
-        }
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-        }
-        @keyframes sparkle {
-          0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
-          50% { transform: scale(1.2) rotate(180deg); opacity: 0.8; }
-        }
-        .sparkle-icon {
-          animation: sparkle 2s ease-in-out infinite;
-        }
-        .launching-soon {
-          animation: pulse 2s ease-in-out infinite;
-        }
-        @keyframes pulse {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.05); }
+        body {
+          overflow-x: hidden;
         }
       `}</style>
-      
+
       {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(107,75,204,0.3),rgba(37,38,44,0.2))]" />
@@ -140,11 +89,11 @@ export default function GlowLanding() {
               <Sparkles className="w-4 h-4 text-purple-200 sparkle-icon" />
               <span className="text-purple-200 font-medium">Launching Soon</span>
             </div>
-            
+
             <h1 className="text-5xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-purple-200 leading-tight">
               ClipLabs
             </h1>
-            
+
             <p className="text-xl text-purple-200">
               Clip for Top Influencers And Brands– Get Paid to Create
             </p>
@@ -184,7 +133,7 @@ export default function GlowLanding() {
             </div>
           </div>
 
-          <div ref={formRef} 
+          <div ref={formRef}
             className="backdrop-blur-md bg-white/5 rounded-2xl p-8 border border-white/10
               hover:bg-white/10 transition-all"
           >
@@ -194,7 +143,7 @@ export default function GlowLanding() {
               </h3>
               <p className="text-purple-200">Be first in line when we launch.</p>
             </div>
-            
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <FormInput name="firstName" type="text" placeholder="First Name" />
               <FormInput name="email" type="email" placeholder="Email" />
@@ -220,7 +169,7 @@ export default function GlowLanding() {
           </p>
           <div className="flex flex-wrap justify-center items-center gap-12">
             {['Twitch', 'Kick', 'Whop'].map((platform) => (
-              <div key={platform} 
+              <div key={platform}
                 className="text-2xl text-white font-semibold hover:text-purple-200 transition-all cursor-pointer transform hover:scale-105"
               >
                 {platform}
