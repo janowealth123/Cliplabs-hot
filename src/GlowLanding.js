@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { ArrowRight, CheckCircle, DollarSign, Users, Sparkles, Clock } from 'lucide-react';
 
-// Define the FormInput component at the top level
 const FormInput = ({ name, type, placeholder, required = true, disabled = false }) => (
   <input
     name={name}
@@ -82,35 +81,34 @@ export default function GlowLanding() {
       const form = formRef.current;
       const formData = new FormData(form);
       
-      // Attempt to subscribe to ConvertKit
-      const response = await fetch('https://api.convertkit.com/v3/forms/d-SHTwAoFv8xjHmZQiQ5vQ/subscribe', {
+      // Updated ConvertKit API call
+      const response = await fetch('https://api.convertkit.com/v3/subscribers', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           api_secret: 'Oq0rUdzZkidbNEyLEq34ZWtx7gw5FhKG790oUzMpX-0',
-          email: formData.get('email'),
-          first_name: formData.get('firstName'),
-          fields: {
+          subscriber: {
+            email: formData.get('email'),
             first_name: formData.get('firstName')
           }
         })
       });
 
+      const responseData = await response.json();
+      console.log('ConvertKit Response:', responseData);
+
       if (!response.ok) {
-        console.warn('ConvertKit subscription failed, but continuing to Discord');
-      } else {
-        console.log('Successfully subscribed to ConvertKit');
+        throw new Error(`ConvertKit Error: ${JSON.stringify(responseData)}`);
       }
 
-      // Redirect to Discord regardless of ConvertKit response
+      // Success - redirect to Discord
       form.reset();
       window.location.href = 'https://discord.gg/cliplabs';
       
     } catch (error) {
-      console.error('Submission error:', error);
+      console.error('Detailed submission error:', error);
       // Still redirect to Discord even if there's an error
       window.location.href = 'https://discord.gg/cliplabs';
     } finally {
