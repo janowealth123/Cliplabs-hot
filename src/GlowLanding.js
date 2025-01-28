@@ -110,9 +110,9 @@ export default function GlowLanding() {
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Navigation */}
         <nav className="flex justify-between items-center py-6">
-          {/* Beaker Image */}
+          {/* Replaced the text "ClipLabs" with the image logo */}
           <div className="flex items-center">
-            <img src="/beaker.png" alt="Clip Labs Logo" className="w-10 h-10" />
+            <img src="/IMG_2123.png" alt="ClipLabs Logo" className="w-10 h-10" />
           </div>
 
           <div className="flex items-center gap-4">
