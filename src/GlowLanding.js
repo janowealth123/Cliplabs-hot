@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { ArrowRight, CheckCircle, DollarSign, Users, Sparkles, Clock } from 'lucide-react';
+import SubscribeForm from './components/SubscribeForm'; // Import the subscribe form
 
 const StatCard = ({ icon: Icon, label, value }) => (
   <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 flex flex-col items-center text-center border border-white/10 hover:bg-white/10 transition-all transform hover:scale-105 cursor-pointer">
