@@ -47,7 +47,7 @@ export default function GlowLanding() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#6B4BCC] via-[#563AA5] to-[#4B2A99] relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[#6B4BCC] via-[#563AA5] to-[#4B2A99] relative overflow-x-hidden">
       <style>{`
         html, body {
           height: 100%;
@@ -55,6 +55,10 @@ export default function GlowLanding() {
         }
         body {
           overflow-x: hidden;
+          overflow-y: auto;
+        }
+        .content-wrapper {
+          min-height: 100%;
         }
       `}</style>
 
@@ -69,7 +73,7 @@ export default function GlowLanding() {
         {/* Navigation */}
         <nav className="flex justify-between items-center py-6">
           <div className="flex items-center gap-4">
-            <img src="/beaker.png" alt="ClipLabs" className="w-10 h-10" />
+            <img src="/IMG_2123.png" alt="ClipLabs" className="w-10 h-10" />
             <div className="text-3xl font-bold bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
               ClipLabs
             </div>
