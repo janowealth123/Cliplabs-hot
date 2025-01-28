@@ -60,6 +60,9 @@ export default function GlowLanding() {
         .content-wrapper {
           min-height: 100%;
         }
+        .full-width {
+          width: 100%;
+        }
       `}</style>
 
       {/* Background Elements */}
