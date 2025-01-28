@@ -82,29 +82,37 @@ export default function GlowLanding() {
       const form = formRef.current;
       const formData = new FormData(form);
       
+      // Attempt to subscribe to ConvertKit
       const response = await fetch('https://api.convertkit.com/v3/forms/d-SHTwAoFv8xjHmZQiQ5vQ/subscribe', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
         body: JSON.stringify({
-          api_key: 'd-SHTwAoFv8xjHmZQiQ5vQ',
+          api_secret: 'Oq0rUdzZkidbNEyLEq34ZWtx7gw5FhKG790oUzMpX-0',
           email: formData.get('email'),
           first_name: formData.get('firstName'),
+          fields: {
+            first_name: formData.get('firstName')
+          }
         })
       });
 
       if (!response.ok) {
-        throw new Error('Subscription failed');
+        console.warn('ConvertKit subscription failed, but continuing to Discord');
+      } else {
+        console.log('Successfully subscribed to ConvertKit');
       }
 
-      await response.json();
+      // Redirect to Discord regardless of ConvertKit response
       form.reset();
       window.location.href = 'https://discord.gg/cliplabs';
       
     } catch (error) {
       console.error('Submission error:', error);
-      alert('There was an error joining the waitlist. Please try again.');
+      // Still redirect to Discord even if there's an error
+      window.location.href = 'https://discord.gg/cliplabs';
     } finally {
       setIsSubmitting(false);
     }
@@ -204,7 +212,7 @@ export default function GlowLanding() {
               />
               <button 
                 type="submit" 
-                className="w-full bg-white text-purple-600 font-medium py-3 px-6 rounded-xl"
+                className="w-full bg-white text-purple-600 font-medium py-3 px-6 rounded-xl hover:bg-white/90 transition-colors"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? 'Joining...' : 'Join the Waitlist'}
