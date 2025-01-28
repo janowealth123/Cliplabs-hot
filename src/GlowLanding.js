@@ -76,15 +76,23 @@ export default function GlowLanding() {
     const form = formRef.current;
     const formData = new FormData(form);
 
-    // Use the correct Google Apps Script Web App URL here
-    fetch('https://script.google.com/macros/s/AKfycbwJAIpbyYEVPDFN6svxnU_kLHgJBu5x5XARaQmOvbpH6sl-TK2JFg1fx7X_FIqtD_6v4w/exec', {
+    // Make API request to Kit to submit data
+    fetch('https://api.kit.com/v1/forms/d-SHTwAoFv8xjHmZQiQ5vQ/submit', {  // Use the correct Kit form URL
       method: 'POST',
-      body: formData
+      headers: {
+        'Authorization': 'Bearer d-SHTwAoFv8xjHmZQiQ5vQ',  // Replace with your Kit API key
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        firstName: formData.get('firstName'),
+        email: formData.get('email')
+      })
     })
-    .then(response => {
+    .then(response => response.json())
+    .then(data => {
       alert('Form submitted successfully!');
-      window.location.replace('https://discord.gg/cliplabs'); // Redirect to Discord
-      form.reset(); // Reset the form fields
+      window.location.replace('https://discord.gg/cliplabs');  // Redirect to Discord
+      form.reset();  // Reset the form fields
     })
     .catch(error => {
       console.error('Error:', error);
@@ -188,4 +196,3 @@ export default function GlowLanding() {
     </div>
   );
 }
-
