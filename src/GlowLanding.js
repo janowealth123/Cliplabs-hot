@@ -81,38 +81,24 @@ export default function GlowLanding() {
       const form = formRef.current;
       const formData = new FormData(form);
       
-      // Updated ConvertKit API call
-      const response = await fetch('https://api.convertkit.com/v3/subscribers', {
+      // Simple POST request to Kit
+      await fetch('https://app.kit.com/api/v1/forms/7602873/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          api_secret: 'Oq0rUdzZkidbNEyLEq34ZWtx7gw5FhKG790oUzMpX-0',
-          subscriber: {
-            email: formData.get('email'),
-            first_name: formData.get('firstName')
-          }
+          email: formData.get('email'),
+          name: formData.get('firstName')
         })
       });
 
-      const responseData = await response.json();
-      console.log('ConvertKit Response:', responseData);
-
-      if (!response.ok) {
-        throw new Error(`ConvertKit Error: ${JSON.stringify(responseData)}`);
-      }
-
-      // Success - redirect to Discord
-      form.reset();
-      window.location.href = 'https://discord.gg/cliplabs';
-      
     } catch (error) {
-      console.error('Detailed submission error:', error);
-      // Still redirect to Discord even if there's an error
-      window.location.href = 'https://discord.gg/cliplabs';
+      console.error('Error:', error);
     } finally {
       setIsSubmitting(false);
+      // Always redirect to Discord
+      window.location.href = 'https://discord.gg/cliplabs';
     }
   };
 
