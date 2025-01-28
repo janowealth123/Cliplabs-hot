@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { ArrowRight, CheckCircle, DollarSign, Users, Sparkles, Clock } from 'lucide-react';
 
-// Component definitions remain the same
 const FormInput = ({ name, type, placeholder, required = true, disabled = false }) => (
   <input
     name={name}
@@ -36,21 +35,19 @@ export default function GlowLanding() {
   const formRef = useRef(null);
   const targetCount = 1243;
 
-  // Add Kit's form script
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://app.kit.com/embed.js';
-    script.async = true;
-    document.body.appendChild(script);
+  const stats = useMemo(() => [
+    { icon: DollarSign, label: 'Average Per Clip', value: '$200-2000' },
+    { icon: Users, label: 'Clippers Joined', value: animatedCount.toLocaleString() },
+    { icon: Clock, label: 'Time to First Clip', value: '24hr' }
+  ], [animatedCount]);
 
-    return () => {
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
-    };
-  }, []);
+  const features = useMemo(() => [
+    'Direct payments from top creators',
+    'Set your own rates ($200-2000 per clip)',
+    'Choose your own schedule',
+    'Work with trending creators'
+  ], []);
 
-  // Animation effect remains the same
   useEffect(() => {
     const animateCount = () => {
       const duration = 2000;
@@ -72,21 +69,50 @@ export default function GlowLanding() {
     return () => clearInterval(timer);
   }, []);
 
-  const stats = useMemo(() => [
-    { icon: DollarSign, label: 'Average Per Clip', value: '$200-2000' },
-    { icon: Users, label: 'Clippers Joined', value: animatedCount.toLocaleString() },
-    { icon: Clock, label: 'Time to First Clip', value: '24hr' }
-  ], [animatedCount]);
-
-  const features = useMemo(() => [
-    'Direct payments from top creators',
-    'Set your own rates ($200-2000 per clip)',
-    'Choose your own schedule',
-    'Work with trending creators'
-  ], []);
-
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const formData = new FormData(e.target);
+      const email = formData.get('email');
+      const firstName = formData.get('firstName');
+
+      console.log('Submitting form data:', { email, firstName });
+
+      // Send to Kit's API
+      const response = await fetch('https://app.kit.co/api/forms/7602873/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: {
+            email: email,
+            name: firstName
+          }
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit form');
+      }
+
+      // Log success
+      console.log('Form submitted successfully');
+      
+      // Redirect to Discord
+      window.location.href = 'https://discord.gg/cliplabs';
+      
+    } catch (error) {
+      console.error('Form submission error:', error);
+      // Still redirect to Discord even if the form submission fails
+      window.location.href = 'https://discord.gg/cliplabs';
+    }
   };
 
   return (
@@ -168,11 +194,7 @@ export default function GlowLanding() {
               <p className="text-purple-200">Be first in line when we launch.</p>
             </div>
 
-            <div 
-              data-kit-form="7602873"
-              data-kit-onsubmit="window.location.href='https://discord.gg/cliplabs'"
-              className="space-y-4"
-            >
+            <form onSubmit={handleSubmit} className="space-y-4">
               <FormInput 
                 name="firstName" 
                 type="text" 
@@ -192,7 +214,7 @@ export default function GlowLanding() {
               >
                 {isSubmitting ? 'Joining...' : 'Join the Waitlist'}
               </button>
-            </div>
+            </form>
           </div>
         </div>
       </div>
