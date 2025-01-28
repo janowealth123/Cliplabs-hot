@@ -1,32 +1,14 @@
-/* index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* Reset some default styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Set a smooth background and font */
+/* Custom styles */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   background-color: #121212;
   color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
 }
 
-/* Style for the main app container */
-#root {
-  width: 100%;
-  max-width: 1200px;
-  padding: 20px;
-  text-align: center;
-}
-
-/* Buttons */
 button {
   background-color: #6B4BCC;
   color: white;
