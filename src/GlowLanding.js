@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { ArrowRight, CheckCircle, DollarSign, Users, Sparkles, Clock } from 'lucide-react';
-import SubscribeForm from './components/SubscribeForm'; // Import the subscribe form
 
 const StatCard = ({ icon: Icon, label, value }) => (
   <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 flex flex-col items-center text-center border border-white/10 hover:bg-white/10 transition-all transform hover:scale-105 cursor-pointer">
@@ -72,9 +71,23 @@ export default function GlowLanding() {
     formRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Handle the form submission to Google Sheets
   const handleSubmit = (e) => {
     e.preventDefault();
-    window.location.replace('https://discord.gg/cliplabs');
+
+    const form = formRef.current;
+    const formData = new FormData(form);
+
+    fetch('https://script.google.com/macros/s/AKfycbwWppxOw7MEC6pidWweXIl6J9JjRES93fVa43TzAvWyeaavqWysgVRIyqJPTHmCRo-L4A/exec', {
+      method: 'POST',
+      body: formData
+    }).then(response => {
+      alert('Form submitted successfully!');
+      form.reset();  // Reset the form after submission
+    }).catch(error => {
+      console.error('Error:', error);
+      alert('There was an error with the submission.');
+    });
   };
 
   return (
@@ -173,3 +186,4 @@ export default function GlowLanding() {
     </div>
   );
 }
+
