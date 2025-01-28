@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { ArrowRight, CheckCircle, DollarSign, Users, Sparkles, Clock } from 'lucide-react';
 
+// Component definitions remain the same
 const FormInput = ({ name, type, placeholder, required = true, disabled = false }) => (
   <input
     name={name}
@@ -35,19 +36,21 @@ export default function GlowLanding() {
   const formRef = useRef(null);
   const targetCount = 1243;
 
-  const stats = useMemo(() => [
-    { icon: DollarSign, label: 'Average Per Clip', value: '$200-2000' },
-    { icon: Users, label: 'Clippers Joined', value: animatedCount.toLocaleString() },
-    { icon: Clock, label: 'Time to First Clip', value: '24hr' }
-  ], [animatedCount]);
+  // Add Kit's form script
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://app.kit.com/embed.js';
+    script.async = true;
+    document.body.appendChild(script);
 
-  const features = useMemo(() => [
-    'Direct payments from top creators',
-    'Set your own rates ($200-2000 per clip)',
-    'Choose your own schedule',
-    'Work with trending creators'
-  ], []);
+    return () => {
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
+    };
+  }, []);
 
+  // Animation effect remains the same
   useEffect(() => {
     const animateCount = () => {
       const duration = 2000;
@@ -69,37 +72,21 @@ export default function GlowLanding() {
     return () => clearInterval(timer);
   }, []);
 
+  const stats = useMemo(() => [
+    { icon: DollarSign, label: 'Average Per Clip', value: '$200-2000' },
+    { icon: Users, label: 'Clippers Joined', value: animatedCount.toLocaleString() },
+    { icon: Clock, label: 'Time to First Clip', value: '24hr' }
+  ], [animatedCount]);
+
+  const features = useMemo(() => [
+    'Direct payments from top creators',
+    'Set your own rates ($200-2000 per clip)',
+    'Choose your own schedule',
+    'Work with trending creators'
+  ], []);
+
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      const form = formRef.current;
-      const formData = new FormData(form);
-      
-      // Simple POST request to Kit
-      await fetch('https://app.kit.com/api/v1/forms/7602873/submit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          email: formData.get('email'),
-          name: formData.get('firstName')
-        })
-      });
-
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsSubmitting(false);
-      // Always redirect to Discord
-      window.location.href = 'https://discord.gg/cliplabs';
-    }
   };
 
   return (
@@ -181,7 +168,11 @@ export default function GlowLanding() {
               <p className="text-purple-200">Be first in line when we launch.</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <div 
+              data-kit-form="7602873"
+              data-kit-onsubmit="window.location.href='https://discord.gg/cliplabs'"
+              className="space-y-4"
+            >
               <FormInput 
                 name="firstName" 
                 type="text" 
@@ -195,13 +186,13 @@ export default function GlowLanding() {
                 disabled={isSubmitting}
               />
               <button 
-                type="submit" 
+                type="submit"
                 className="w-full bg-white text-purple-600 font-medium py-3 px-6 rounded-xl hover:bg-white/90 transition-colors"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? 'Joining...' : 'Join the Waitlist'}
               </button>
-            </form>
+            </div>
           </div>
         </div>
       </div>
