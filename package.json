@@ -11,6 +11,9 @@
     "autoprefixer": "^10.4.0",
     "lucide-react": "^0.326.0"
   },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
