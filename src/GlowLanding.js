@@ -79,36 +79,30 @@ export default function GlowLanding() {
 
     try {
       const formData = new FormData(e.target);
-      
-      // Submit to Kit using your website domain and waitlist path
-      const response = await fetch('https://cliplabs.io/waitlist/forms/7602873/subscriptions', {
+      const email = formData.get('email');
+      const firstName = formData.get('firstName');
+
+      const response = await fetch('https://app.convertkit.com/integrations/unbounce/7602873/webhook?api_key=d-SHTwAoFv8xjHmZQiQ5vQ', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          subscription: {
-            email: formData.get('email'),
-            first_name: formData.get('firstName')
-          }
+          email: email,
+          first_name: firstName
         })
       });
 
-      console.log('Form submission response:', response);
-
-      // Show success message before redirect
-      alert('Thanks for joining! Check your email to confirm your subscription.');
-      
-      // Redirect to Discord
-      window.location.href = 'https://discord.gg/cliplabs';
-      
+      if (response.ok) {
+        alert('Thanks for joining! Check your email to confirm your subscription.');
+        window.location.href = 'https://discord.gg/cliplabs';
+      } else {
+        alert('There was an error submitting the form. Please try again.');
+        console.error('Form submission error:', await response.text());
+      }
     } catch (error) {
       console.error('Form submission error:', error);
-      // Show error message
-      alert('There was an error submitting the form. You will still be redirected to Discord.');
-      // Redirect even on error
-      window.location.href = 'https://discord.gg/cliplabs';
+      alert('There was an error submitting the form. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
