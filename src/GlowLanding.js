@@ -52,7 +52,7 @@ export default function GlowLanding() {
       const steps = 60;
       const increment = targetCount / steps;
       let current = 0;
-      
+
       return setInterval(() => {
         current += increment;
         if (current >= targetCount) {
@@ -76,7 +76,7 @@ export default function GlowLanding() {
     const form = formRef.current;
     const formData = new FormData(form);
 
-    // Replace with your new Web App URL
+    // Use the correct Google Apps Script Web App URL here
     fetch('https://script.google.com/macros/s/AKfycbwJAIpbyYEVPDFN6svxnU_kLHgJBu5x5XARaQmOvbpH6sl-TK2JFg1fx7X_FIqtD_6v4w/exec', {
       method: 'POST',
       body: formData
@@ -84,7 +84,7 @@ export default function GlowLanding() {
     .then(response => {
       alert('Form submitted successfully!');
       window.location.replace('https://discord.gg/cliplabs'); // Redirect to Discord
-      form.reset(); // Reset the form
+      form.reset(); // Reset the form fields
     })
     .catch(error => {
       console.error('Error:', error);
