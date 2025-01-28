@@ -71,20 +71,22 @@ export default function GlowLanding() {
     formRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Handle the form submission to Google Sheets
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const form = formRef.current;
     const formData = new FormData(form);
 
-    fetch('https://script.google.com/macros/s/AKfycbwWppxOw7MEC6pidWweXIl6J9JjRES93fVa43TzAvWyeaavqWysgVRIyqJPTHmCRo-L4A/exec', {
+    // Replace with your new Web App URL
+    fetch('https://script.google.com/macros/s/AKfycbwJAIpbyYEVPDFN6svxnU_kLHgJBu5x5XARaQmOvbpH6sl-TK2JFg1fx7X_FIqtD_6v4w/exec', {
       method: 'POST',
       body: formData
-    }).then(response => {
+    })
+    .then(response => {
       alert('Form submitted successfully!');
-      form.reset();  // Reset the form after submission
-    }).catch(error => {
+      window.location.replace('https://discord.gg/cliplabs'); // Redirect to Discord
+      form.reset(); // Reset the form
+    })
+    .catch(error => {
       console.error('Error:', error);
       alert('There was an error with the submission.');
     });
@@ -186,4 +188,3 @@ export default function GlowLanding() {
     </div>
   );
 }
-
