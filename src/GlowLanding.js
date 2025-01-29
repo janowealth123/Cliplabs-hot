@@ -1,7 +1,22 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { ArrowRight, CheckCircle, DollarSign, Users, Sparkles, Clock } from 'lucide-react';
-
-const FormInput = ({ name, type, placeholder, required = true, disabled = false }) => (
+import React, { useState, useRef, useEffect, useMemo } from "react";
+import {
+  ArrowRight,
+  CheckCircle,
+  DollarSign,
+  Users,
+  Sparkles,
+  Clock,
+} from "lucide-react";
+const api_key = process.env.REACT_APP_CONVERT_KIT_API_KEY;
+const formId = process.env.REACT_APP_CONVERT_KIT_FORM_ID || 7602873;
+const base_api_url = process.env.REACT_APP_API_BASE_URL;
+const FormInput = ({
+  name,
+  type,
+  placeholder,
+  required = true,
+  disabled = false,
+}) => (
   <input
     name={name}
     type={type}
@@ -35,18 +50,28 @@ export default function GlowLanding() {
   const formRef = useRef(null);
   const targetCount = 1243;
 
-  const stats = useMemo(() => [
-    { icon: DollarSign, label: 'Average Per Clip', value: '$200-2000' },
-    { icon: Users, label: 'Clippers Joined', value: animatedCount.toLocaleString() },
-    { icon: Clock, label: 'Time to First Clip', value: '24hr' }
-  ], [animatedCount]);
+  const stats = useMemo(
+    () => [
+      { icon: DollarSign, label: "Average Per Clip", value: "$200-2000" },
+      {
+        icon: Users,
+        label: "Clippers Joined",
+        value: animatedCount.toLocaleString(),
+      },
+      { icon: Clock, label: "Time to First Clip", value: "24hr" },
+    ],
+    [animatedCount]
+  );
 
-  const features = useMemo(() => [
-    'Direct payments from top creators',
-    'Set your own rates ($200-2000 per clip)',
-    'Choose your own schedule',
-    'Work with trending creators'
-  ], []);
+  const features = useMemo(
+    () => [
+      "Direct payments from top creators",
+      "Set your own rates ($200-2000 per clip)",
+      "Choose your own schedule",
+      "Work with trending creators",
+    ],
+    []
+  );
 
   useEffect(() => {
     const animateCount = () => {
@@ -70,7 +95,7 @@ export default function GlowLanding() {
   }, []);
 
   const scrollToForm = () => {
-    formRef.current?.scrollIntoView({ behavior: 'smooth' });
+    formRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleSubmit = async (e) => {
@@ -82,29 +107,31 @@ export default function GlowLanding() {
       const email = formData.get('email');
       const firstName = formData.get('firstName');
 
-      const response = await fetch('https://api.convertkit.com/v3/forms/7602873/subscribe', {
-        method: 'POST', 
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          'api_key':'d-SHTwAoFv8xjHmZQiQ5vQ',
-          email: email,
-          first_name: firstName,
-        
-        })
-      });
-
+      const response = await fetch(
+        `https://api.convertkit.com/v3/forms/${formId}/subscribe`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            api_key: api_key, // Use environment variable
+            email: email,
+            first_name: firstName,
+          }),
+        }
+      );
+  
       if (response.ok) {
-        alert('Thanks for joining! Check your email to confirm your subscription.');
-        window.location.href = 'https://discord.gg/cliplabs';
+        alert(
+          "Thanks for joining! Check your email to confirm your subscription."
+        );
+        window.location.href = "https://discord.gg/cliplabs";
       } else {
-        alert('There was an error submitting the form. Please try again.');
-        console.error('Form submission error:', await response.text());
+        alert("There was an error submitting the form. Please try again.");
+        console.error("Form submission error:", await response.text());
       }
     } catch (error) {
-      console.error('Form submission error:', error);
-      alert('There was an error submitting the form. Please try again.');
+      console.error("Form submission error:", error);
+      alert("There was an error submitting the form. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -124,13 +151,13 @@ export default function GlowLanding() {
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="flex justify-between items-center py-6">
-          <div className="text-3xl font-bold text-white">
-            ClipLabs
-          </div>
+          <div className="text-3xl font-bold text-white">ClipLabs</div>
           <div className="flex items-center gap-4">
             <div className="flex items-center bg-white/10 rounded-full px-4 py-2 backdrop-blur-sm border border-white/10">
               <Users className="w-4 h-4 text-purple-200 mr-2" />
-              <span className="text-purple-100 font-medium">{animatedCount.toLocaleString()} Clippers</span>
+              <span className="text-purple-100 font-medium">
+                {animatedCount.toLocaleString()} Clippers
+              </span>
             </div>
           </div>
         </nav>
@@ -139,11 +166,15 @@ export default function GlowLanding() {
           <div className="space-y-6">
             <div className="inline-flex items-center gap-2 bg-white/10 rounded-full px-4 py-2 backdrop-blur-sm border border-white/10">
               <Sparkles className="w-4 h-4 text-purple-200" />
-              <span className="text-purple-200 font-medium">Launching Soon</span>
+              <span className="text-purple-200 font-medium">
+                Launching Soon
+              </span>
             </div>
 
             <h1 className="text-5xl lg:text-7xl font-bold text-white leading-tight">
-              Get Payouts To Make<br />Viral Clips
+              Get Payouts To Make
+              <br />
+              Viral Clips
             </h1>
 
             <p className="text-xl text-purple-200">
@@ -158,7 +189,9 @@ export default function GlowLanding() {
                 Join the Waitlist
                 <ArrowRight className="w-5 h-5" />
               </button>
-              <p className="text-purple-200 mt-4 text-sm">Limited spots available for early access</p>
+              <p className="text-purple-200 mt-4 text-sm">
+                Limited spots available for early access
+              </p>
             </div>
           </div>
         </div>
@@ -181,33 +214,38 @@ export default function GlowLanding() {
             </div>
           </div>
 
-          <div ref={formRef} className="bg-white/5 rounded-2xl p-8 border border-white/10">
+          <div
+            ref={formRef}
+            className="bg-white/5 rounded-2xl p-8 border border-white/10"
+          >
             <div className="mb-8">
               <h3 className="text-3xl font-bold text-white mb-2">
                 Learn How Clipping Can Earn You An Extra $350-500 A Day
               </h3>
-              <p className="text-purple-200">Be first in line when we launch.</p>
+              <p className="text-purple-200">
+                Be first in line when we launch.
+              </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
-              <FormInput 
-                name="firstName" 
-                type="text" 
-                placeholder="First Name" 
+              <FormInput
+                name="firstName"
+                type="text"
+                placeholder="First Name"
                 disabled={isSubmitting}
               />
-              <FormInput 
-                name="email" 
-                type="email" 
-                placeholder="Email" 
+              <FormInput
+                name="email"
+                type="email"
+                placeholder="Email"
                 disabled={isSubmitting}
               />
-              <button 
+              <button
                 type="submit"
                 className="w-full bg-white text-purple-600 font-medium py-3 px-6 rounded-xl hover:bg-white/90 transition-colors"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? 'Joining...' : 'Join the Waitlist'}
+                {isSubmitting ? "Joining..." : "Join the Waitlist"}
               </button>
             </form>
           </div>
