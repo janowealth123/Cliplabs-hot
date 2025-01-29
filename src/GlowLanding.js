@@ -120,7 +120,6 @@ export default function GlowLanding() {
         }
       );
   
-      console.log(response)
       if (response.ok) {
         alert(
           "Thanks for joining! Check your email to confirm your subscription."
