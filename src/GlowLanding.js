@@ -82,13 +82,13 @@ export default function GlowLanding() {
       const email = formData.get('email');
       const firstName = formData.get('firstName');
 
-      const response = await fetch('https://api.convertkit.com/v3/forms/7602873/subscribe', {
+      const response = await fetch('https://api.convertkit.com/v3/forms/7627556/subscribe', {
         method: 'POST', 
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          'api_key':'d-SHTwAoFv8xjHmZQiQ5vQ',
+          'api_key':'WgxFxxVYkBXCNK_oy9FwKQ',
           email: email,
           first_name: firstName,
         
