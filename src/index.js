@@ -6,7 +6,7 @@ import WebinarPage from './webinar';
 ReactDOM.render(
   <React.StrictMode>
     {/* <GlowLanding /> */}
-  <WebinarPage/>
+     <WebinarPage/>
   </React.StrictMode>,
   document.getElementById('root')
 );
