@@ -1,0 +1,18 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "issue/form",
+    "main",
+    "origin"
+  ],
+  "parent": {
+    "issue/form": "main",
+    "main": null,
+    "origin": "main"
+  },
+  "order": [
+    "main",
+    "issue/form",
+    "origin"
+  ]
+}
